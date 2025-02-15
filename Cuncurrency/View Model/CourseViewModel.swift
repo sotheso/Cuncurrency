@@ -9,6 +9,7 @@ import Foundation
 import Apollo
 
 class CourseViewModel: ObservableObject {
+    @Published private(set) var courses: [Course] = []
     
     private func queryCourses() async throws -> GraphQLResult<CourseModQuery.Data>? {
         return await withCheckedContinuation { continuation in
@@ -30,10 +31,18 @@ class CourseViewModel: ObservableObject {
         do {
             let result = try await queryCourses()
             if let result = result{
-                print("result",result)
+                if let courseCollaction = result.data?.cuncurrencyDbCollection {
+                    self.courses = process(data: courseCollaction)
+                }
             }
         } catch{
             print("Error", error)
         }
+    }
+    
+    private func process(data: CoursesData) -> [Course] {
+        let content = CoursesCollection.init(data)
+        
+        return content.courses
     }
 }

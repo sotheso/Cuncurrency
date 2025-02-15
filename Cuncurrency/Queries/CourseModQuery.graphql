@@ -7,8 +7,8 @@ query CourseMod($locale: String!) {
       }
       title
       subtitle
-      numberOfSections
-      numberOfHours
+      numberSec
+      numberH
       subject
       colors
       illustration {
@@ -22,7 +22,6 @@ query CourseMod($locale: String!) {
           title
           subtitle
           content
-        
         }
       }
     }
