@@ -3,6 +3,7 @@
 
 import Apollo
 import Foundation
+import ApolloAPI
 
 public final class CourseModQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
@@ -46,7 +47,7 @@ public final class CourseModQuery: GraphQLQuery {
     }
     """
 
-  public let operationName: String = "CourseMod"
+    public let operationName: String = "CourseMod"
 
   public init() {
   }
