@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct CuncurrencyApp: App {
+    @StateObject var courseViewModel = CourseViewModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(courseViewModel)
         }
     }
 }
