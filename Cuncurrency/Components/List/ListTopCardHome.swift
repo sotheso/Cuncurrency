@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ListTopCardHome: View {
+    var course: [Course]
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false){
             HStack(spacing: 20){
                 ForEach(0..<5){ item in
-                    TopCardHome()
+                    TopCardHome(course: coursePreviewData)
                         .frame(maxWidth: 252, maxHeight: 350)
                 }
             }
@@ -23,5 +24,5 @@ struct ListTopCardHome: View {
 }
 
 #Preview {
-    ListTopCardHome()
+    ListTopCardHome(course: [coursePreviewData])
 }

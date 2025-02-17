@@ -3,8 +3,8 @@
     "id": "3WzcPYRYAfb2pa8Yc4pgMv",
     "title": "UI Design for Developers",
     "subtitle": "Build a multi-platform app from scratch using the new techniques in iOS 14. We'll use the Sidebar and Lazy Grids to make the layout adaptive for iOS, iPadOS, macOS Big Sur and we'll learn the new Matched Geometry Effect to create beautiful transitions.",
-    "numberOfSections": 22,
-    "numberOfHours": 3,
+    "numberSec": 22,
+    "numberH": 3,
     "subject": "Design",
     "colors": [
         "#E14885",

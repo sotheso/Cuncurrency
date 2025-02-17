@@ -7,6 +7,8 @@
 
 import Foundation
 
+// تابعی کمه مدل داده جیسون رو به سوییفت تغییر میده
+
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data
 

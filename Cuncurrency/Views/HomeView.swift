@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    // add api
+    @EnvironmentObject var courseViewModel: CourseViewModel
+    
     var body: some View {
         ZStack(alignment: .top){
             ScrollView{
@@ -16,7 +19,7 @@ struct HomeView: View {
                     .padding(.horizontal)
                     .padding(.top, 10)
                 
-                ListTopCardHome()
+                ListTopCardHome(course: courseViewModel.courses)
 //                    .padding(.top, 10)
                 
                 Text("Popular")
@@ -26,7 +29,7 @@ struct HomeView: View {
                     .padding(.top, 30)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                ListBannerHome()
+                ListBannerHome(courses: courseViewModel.courses)
             }
             Color(.white)
                 .animation(.easeIn)
@@ -38,4 +41,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environmentObject(CourseViewModel())
 }
