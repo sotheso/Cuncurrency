@@ -8,13 +8,22 @@
 import SwiftUI
 
 struct ListTopCardHome: View {
-    var course: [Course]
+    var featuredCourses: [Course]
+ 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false){
             HStack(spacing: 20){
-                ForEach(0..<5){ item in
-                    TopCardHome(course: coursePreviewData)
-                        .frame(maxWidth: 252, maxHeight: 350)
+                if featuredCourses.count > 0 {
+                    ForEach(featuredCourses, id: \.id){ cuorse in
+                        TopCardHome(featuredCourses : coursePreviewData)
+                            .frame(maxWidth: 252, maxHeight: 350)
+                    }
+                } else {
+                    ForEach(0..<4, id: \.self) { number in
+                        TopCardHome(featuredCourses: coursePreviewData)
+                            .frame(maxWidth: 252, maxHeight: 350)
+                            .redacted(reason: .placeholder)
+                    }
                 }
             }
             .padding(.horizontal, 20)
@@ -24,5 +33,5 @@ struct ListTopCardHome: View {
 }
 
 #Preview {
-    ListTopCardHome(course: [coursePreviewData])
+    ListTopCardHome(featuredCourses: [coursePreviewData])
 }

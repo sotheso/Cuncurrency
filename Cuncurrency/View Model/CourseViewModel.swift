@@ -8,8 +8,19 @@
 import Foundation
 import Apollo
 
+// برای موضوع تصادقی از پروتوکل Caseiterable استفاده می کنیم
+enum FeaturedSubject: String, CaseIterable {
+    case SwiftUI = "SwiftUI"
+    case Design = "Design"
+    case Uikit = "UIKit"
+}
+
 class CourseViewModel: ObservableObject {
     @Published private(set) var courses: [Course] = []
+    
+    // برای رندم کردم بنر بالای صفحه هوم
+    var featuredSubject: FeaturedSubject = FeaturedSubject.allCases.randomElement() ?? .SwiftUI
+    @Published public private(set) var featuredCourses: [Course] = []
     
     private func queryCourses() async throws -> GraphQLResult<CourseModQuery.Data>? {
         return await withCheckedContinuation { continuation in
@@ -33,6 +44,7 @@ class CourseViewModel: ObservableObject {
             if let result = result{
                 if let courseCollaction = result.data?.cuncurrencyDbCollection {
                     self.courses = process(data: courseCollaction)
+                    finefeaturedCourses()
                 }
             }
         } catch{
@@ -44,5 +56,15 @@ class CourseViewModel: ObservableObject {
         let content = CoursesCollection.init(data)
         
         return content.courses
+    }
+    
+    private func finefeaturedCourses() {
+        // اول ببین یه چیزی توش باشه اگر نبود از تابع بیاد بیرون
+        guard courses.count > 0 else { return }
+        
+        featuredCourses =  courses.filter{ course in
+            course.subject == featuredSubject.rawValue
+            
+        }
     }
 }

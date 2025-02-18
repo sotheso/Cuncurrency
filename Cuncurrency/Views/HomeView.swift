@@ -14,22 +14,27 @@ struct HomeView: View {
     var body: some View {
         ZStack(alignment: .top){
             ScrollView{
-                DateTitle()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .padding(.top, 10)
-                
-                ListTopCardHome(course: courseViewModel.courses)
-//                    .padding(.top, 10)
-                
-                Text("Popular")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .padding(.horizontal)
-                    .padding(.top, 30)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                ListBannerHome(courses: courseViewModel.courses)
+                VStack(spacing: 0){
+                    DateTitle(title: "Sothesom, \(courseViewModel.featuredSubject)")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .padding(.top, 20)
+                        .padding(.horizontal,10)
+                                            
+                    ListTopCardHome(featuredCourses: courseViewModel.courses)
+                        .padding(.top, 10)
+                    
+                    Text("Popular")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.horizontal,20)
+                        .padding(.top, 40)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    
+                    ListBannerHome(courses: courseViewModel.courses)
+                        .padding(.top ,20)
+                }
             }
             Color(.white)
                 .animation(.easeIn)

@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct DateTitle: View {
-    var title: String = "Sothesom App"
+    @EnvironmentObject var courseViewModel: CourseViewModel
+    
+    var title: String
+    
     @State private var date: String = ""
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -28,5 +31,5 @@ struct DateTitle: View {
 }
 
 #Preview {
-    DateTitle()
+    DateTitle(title: coursePreviewData.subject)
 }
