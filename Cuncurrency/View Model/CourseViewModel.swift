@@ -41,13 +41,19 @@ class CourseViewModel: ObservableObject {
     func fetch() async  {
         do {
             let result = try await queryCourses()
-            if let result = result{
-                if let courseCollaction = result.data?.cuncurrencyDbCollection {
-                    self.courses = process(data: courseCollaction)
-                    finefeaturedCourses()
-                }
+            guard let result = result,
+                  let courseCollection = result.data?.cuncurrencyDbCollection else {
+                print("دریافت اطلاعات دوره با شکست مواجه شد")
+                return
             }
-        } catch{
+            
+            // ارسال تغییرات به نخ اصلی
+            DispatchQueue.main.async {
+                self.courses = self.process(data: courseCollection)
+                self.finefeaturedCourses()
+            }
+            
+        } catch {
             print("Error", error)
         }
     }
@@ -61,10 +67,12 @@ class CourseViewModel: ObservableObject {
     private func finefeaturedCourses() {
         // اول ببین یه چیزی توش باشه اگر نبود از تابع بیاد بیرون
         guard courses.count > 0 else { return }
-        
-        featuredCourses =  courses.filter{ course in
-            course.subject == featuredSubject.rawValue
+
+        featuredCourses = courses.filter { $0.subject == featuredSubject.rawValue
+//        featuredCourses =  courses.filter{ course in
+//            course.subject == featuredSubject.rawValue
             
         }
     }
 }
+

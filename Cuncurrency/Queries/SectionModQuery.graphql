@@ -1,0 +1,10 @@
+query SectionMod {
+  sectionModCollection {
+    sections: items {
+      sys {
+        id
+      }
+      title
+    }
+  }
+}

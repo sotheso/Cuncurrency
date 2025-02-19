@@ -474,3 +474,189 @@ public final class CourseModQuery: GraphQLQuery {
     }
   }
 }
+
+
+
+public final class SectionQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query Section {
+      sectionCollection {
+        __typename
+        sections: items {
+          __typename
+          sys {
+            __typename
+            id
+          }
+          title
+        }
+      }
+    }
+    """
+
+  public let operationName: String = "Section"
+
+  public init() {
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("sectionCollection", type: .object(SectionCollection.selections)),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(sectionCollection: SectionCollection? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Query", "sectionCollection": sectionCollection.flatMap { (value: SectionCollection) -> ResultMap in value.resultMap }])
+    }
+
+    public var sectionCollection: SectionCollection? {
+      get {
+        return (resultMap["sectionCollection"] as? ResultMap).flatMap { SectionCollection(unsafeResultMap: $0) }
+      }
+      set {
+        resultMap.updateValue(newValue?.resultMap, forKey: "sectionCollection")
+      }
+    }
+
+    public struct SectionCollection: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["SectionCollection"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("items", alias: "sections", type: .nonNull(.list(.object(Section.selections)))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(sections: [Section?]) {
+        self.init(unsafeResultMap: ["__typename": "SectionCollection", "sections": sections.map { (value: Section?) -> ResultMap? in value.flatMap { (value: Section) -> ResultMap in value.resultMap } }])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var sections: [Section?] {
+        get {
+          return (resultMap["sections"] as! [ResultMap?]).map { (value: ResultMap?) -> Section? in value.flatMap { (value: ResultMap) -> Section in Section(unsafeResultMap: value) } }
+        }
+        set {
+          resultMap.updateValue(newValue.map { (value: Section?) -> ResultMap? in value.flatMap { (value: Section) -> ResultMap in value.resultMap } }, forKey: "sections")
+        }
+      }
+
+      public struct Section: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["Section"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("sys", type: .nonNull(.object(Sy.selections))),
+            GraphQLField("title", type: .scalar(String.self)),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(sys: Sy, title: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Section", "sys": sys.resultMap, "title": title])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var sys: Sy {
+          get {
+            return Sy(unsafeResultMap: resultMap["sys"]! as! ResultMap)
+          }
+          set {
+            resultMap.updateValue(newValue.resultMap, forKey: "sys")
+          }
+        }
+
+        public var title: String? {
+          get {
+            return resultMap["title"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "title")
+          }
+        }
+
+        public struct Sy: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["Sys"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("id", type: .nonNull(.scalar(String.self))),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(id: String) {
+            self.init(unsafeResultMap: ["__typename": "Sys", "id": id])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var id: String {
+            get {
+              return resultMap["id"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "id")
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
