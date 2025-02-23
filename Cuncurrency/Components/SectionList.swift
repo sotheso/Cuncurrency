@@ -20,6 +20,10 @@ struct SectionList: View {
             .task {
                 await sectionViewModel.fetch()
             }
+// حالت کشیدن پایین
+            .refreshable {
+                await sectionViewModel.randomizeSection()
+            }
         }
     }
 }
