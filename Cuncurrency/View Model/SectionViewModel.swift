@@ -9,7 +9,7 @@ import Foundation
 import Apollo
 
 class SectionViewModel: ObservableObject {
-    @Published private(set) var sections: [SectionsDataCollection.SectionModel] = []
+    @Published public var sections: [SectionsDataCollection.SectionModel] = []
     @Published var errorMessage: String? = nil
 
     func querySections() async throws -> GraphQLResult<SectionQuery.Data>? {
@@ -72,8 +72,15 @@ class SectionViewModel: ObservableObject {
         return content.sections
     }
     
+    // برای لود کردن رندم
     func randomizeSection() async{
         sections.shuffle()
+    }
+    
+    // برای پین کردن
+    func orderSectionByPinned() {
+        // همه سکشن هارو می بینه -> اونایی ه پین هست رو بالای لیست میذاره
+        sections.sort { $0.isPinned && !$1.isPinned }
     }
 }
 
