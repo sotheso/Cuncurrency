@@ -1,10 +1,15 @@
-query SectionMod {
-  sectionModCollection {
-    sections: items {
-      sys {
-        id
+    query SectionMod {
+      sectionModCollection {
+        __typename
+        sections: items {
+          __typename
+          sys {
+            __typename
+            id
+          }
+          title
+          subtitle
+          content
+        }
       }
-      title
     }
-  }
-}

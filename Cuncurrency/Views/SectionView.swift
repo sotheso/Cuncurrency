@@ -15,6 +15,8 @@ struct SectionView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 20)
                 .padding(.horizontal, 20)
+            
+            SectionList()
         }
     }
 }

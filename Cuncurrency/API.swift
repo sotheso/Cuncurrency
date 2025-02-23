@@ -481,8 +481,8 @@ public final class SectionQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
     """
-    query Section {
-      sectionCollection {
+    query SectionMod {
+      sectionModCollection {
         __typename
         sections: items {
           __typename
@@ -491,12 +491,14 @@ public final class SectionQuery: GraphQLQuery {
             id
           }
           title
+          subtitle
+          content
         }
       }
     }
     """
 
-  public let operationName: String = "Section"
+  public let operationName: String = "SectionMod"
 
   public init() {
   }
@@ -506,7 +508,7 @@ public final class SectionQuery: GraphQLQuery {
 
     public static var selections: [GraphQLSelection] {
       return [
-        GraphQLField("sectionCollection", type: .object(SectionCollection.selections)),
+        GraphQLField("sectionModCollection", type: .object(SectionCollection.selections)),
       ]
     }
 
@@ -516,16 +518,16 @@ public final class SectionQuery: GraphQLQuery {
       self.resultMap = unsafeResultMap
     }
 
-    public init(sectionCollection: SectionCollection? = nil) {
-      self.init(unsafeResultMap: ["__typename": "Query", "sectionCollection": sectionCollection.flatMap { (value: SectionCollection) -> ResultMap in value.resultMap }])
+    public init(sectionModCollection: SectionCollection? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Query", "sectionModCollection": sectionModCollection.flatMap { (value: SectionCollection) -> ResultMap in value.resultMap }])
     }
 
-    public var sectionCollection: SectionCollection? {
+    public var sectionModCollection: SectionCollection? {
       get {
-        return (resultMap["sectionCollection"] as? ResultMap).flatMap { SectionCollection(unsafeResultMap: $0) }
+        return (resultMap["sectionModCollection"] as? ResultMap).flatMap { SectionCollection(unsafeResultMap: $0) }
       }
       set {
-        resultMap.updateValue(newValue?.resultMap, forKey: "sectionCollection")
+        resultMap.updateValue(newValue?.resultMap, forKey: "sectionModCollection")
       }
     }
 
@@ -575,6 +577,8 @@ public final class SectionQuery: GraphQLQuery {
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("sys", type: .nonNull(.object(Sy.selections))),
             GraphQLField("title", type: .scalar(String.self)),
+            GraphQLField("subtitle", type: .scalar(String.self)),
+            GraphQLField("content", type: .scalar(String.self)),
           ]
         }
 
@@ -584,8 +588,8 @@ public final class SectionQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(sys: Sy, title: String? = nil) {
-          self.init(unsafeResultMap: ["__typename": "Section", "sys": sys.resultMap, "title": title])
+        public init(sys: Sy, title: String? = nil, subtitle: String? = nil, content: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Section", "sys": sys.resultMap, "title": title, "subtitle": subtitle, "content": content])
         }
 
         public var __typename: String {
@@ -612,6 +616,24 @@ public final class SectionQuery: GraphQLQuery {
           }
           set {
             resultMap.updateValue(newValue, forKey: "title")
+          }
+        }
+
+        public var subtitle: String? {
+          get {
+            return resultMap["subtitle"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "subtitle")
+          }
+        }
+
+        public var content: String? {
+          get {
+            return resultMap["content"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "content")
           }
         }
 
@@ -657,6 +679,3 @@ public final class SectionQuery: GraphQLQuery {
     }
   }
 }
-
-
-

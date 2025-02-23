@@ -67,4 +67,4 @@ struct SectionsCollection: Decodable {
             self.content = section?.content ?? ""
         }
     }
-}
+} 
