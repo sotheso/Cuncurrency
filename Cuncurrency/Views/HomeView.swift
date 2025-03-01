@@ -10,16 +10,27 @@ import SwiftUI
 struct HomeView: View {
     // add api
     @EnvironmentObject var courseViewModel: CourseViewModel
+    // For sign in
+    @EnvironmentObject var modalManager: ModalManager
     
     var body: some View {
         ZStack(alignment: .top){
             ScrollView{
                 VStack(spacing: 0){
-                    DateTitle(title: "Sothesom, \(courseViewModel.featuredSubject)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
-                        .padding(.top, 20)
-                        .padding(.horizontal,10)
+                    HStack {
+                        DateTitle(title: "Sothesom, \(courseViewModel.featuredSubject)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                            .padding(.top, 20)
+                        Spacer()
+                        
+                        ProfileIcon()
+                            .onTapGesture {
+                                modalManager.showModal.toggle()
+                            }
+                    }
+                    .padding(.horizontal,10)
+
                                             
                     ListTopCardHome(featuredCourses: courseViewModel.courses)
                         .padding(.top, 10)
@@ -47,4 +58,5 @@ struct HomeView: View {
 #Preview {
     HomeView()
         .environmentObject(CourseViewModel())
+        .environmentObject(ModalManager())
 }

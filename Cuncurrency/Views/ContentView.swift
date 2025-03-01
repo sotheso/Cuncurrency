@@ -10,36 +10,45 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var courseViewModel: CourseViewModel
     @EnvironmentObject var sectionViewModel: SectionViewModel
+    // For Sign in
+    @StateObject var modalManager = ModalManager()
 
     // For search
     @State private var text = ""
 
      
     var body: some View {
-        TabView{
-            HomeView()
-                .tabItem {
-                    Label("Home", systemImage: "house")
+        ZStack {
+            TabView{
+                HomeView()
+                    .environmentObject(modalManager)
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+                
+                NavigationView {
+                    SectionView()
                 }
-            
-            NavigationView {
-                SectionView()
-            }
-            .searchable(text: $text) {
-                ForEach(sectionViewModel.sections.prefix(3)) { section in
-                    Text(section.title)
-                        .searchCompletion(section.title)
+                .searchable(text: $text) {
+                    ForEach(sectionViewModel.sections.prefix(3)) { section in
+                        Text(section.title)
+                            .searchCompletion(section.title)
+                    }
+                }
+                .onSubmit(of: .search) {
+                    sectionViewModel.fillterSection(for: text)
+                }
+                .tabItem{
+                    Label("Section", systemImage: "square.grid.2x2")
                 }
             }
-            .onSubmit(of: .search) {
-                sectionViewModel.fillterSection(for: text)
+            .task {
+                await courseViewModel.fetch()
             }
-            .tabItem{
-                Label("Section", systemImage: "square.grid.2x2")
+            if modalManager.showModal {
+                ModalManagerView()
+                    .environmentObject(modalManager)
             }
-        }
-        .task {
-            await courseViewModel.fetch()
         }
     }
 }
@@ -47,5 +56,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environmentObject(CourseViewModel())
-        .environmentObject(SectionViewModel() )
+        .environmentObject(SectionViewModel())
 }
