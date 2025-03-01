@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SectionList: View {
-    @StateObject var sectionViewModel = SectionViewModel()
+    @EnvironmentObject var sectionViewModel: SectionViewModel
     
     var body: some View {
         VStack{
             List{
-                ForEach($sectionViewModel.sections, id: \.id) { $section in
+                ForEach($sectionViewModel.sections) { $section in
                     HStack{
                         Text(section.title)
                         Spacer()
@@ -51,4 +51,5 @@ struct SectionList: View {
 
 #Preview {
     SectionList()
+        .environmentObject(SectionViewModel())
 }

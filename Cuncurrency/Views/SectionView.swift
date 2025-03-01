@@ -8,19 +8,30 @@
 import SwiftUI
 
 struct SectionView: View {
+    @EnvironmentObject var sectionViewModel: SectionViewModel
+    @Environment(\.isSearching) var isSearching
+    
     var body: some View {
         VStack {
-            Text("All Courses test")
-                .font(.largeTitle).bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.top, 20)
-                .padding(.horizontal, 20)
-            
-            SectionList()
+            if isSearching {
+                if sectionViewModel.fillteredSections.count > 0 {
+                    List(sectionViewModel.fillteredSections) { section in
+                        Text(section.title)
+                    }
+                } else {
+                    List(0..<1){ secion in
+                        Text("نتیجه ای یافت نشد")
+                    }
+                }
+            } else {
+                SectionList()
+            }
         }
+        .navigationTitle(Text("All Courses test"))
     }
 }
 
 #Preview {
     SectionView()
+        .environmentObject(SectionViewModel())
 }

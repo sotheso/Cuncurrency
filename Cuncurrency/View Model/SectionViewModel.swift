@@ -11,6 +11,9 @@ import Apollo
 class SectionViewModel: ObservableObject {
     @Published public var sections: [SectionsDataCollection.SectionModel] = []
     @Published var errorMessage: String? = nil
+    
+    // For search
+    @Published public private(set) var fillteredSections: [SectionsDataCollection.SectionModel] = []
 
     func querySections() async throws -> GraphQLResult<SectionQuery.Data>? {
         return try await withCheckedThrowingContinuation { continuation in
@@ -81,6 +84,19 @@ class SectionViewModel: ObservableObject {
     func orderSectionByPinned() {
         // همه سکشن هارو می بینه -> اونایی ه پین هست رو بالای لیست میذاره
         sections.sort { $0.isPinned && !$1.isPinned }
+    }
+    
+    func fillterSection(for text: String) {
+        fillteredSections = []
+        let searchText = text.lowercased()
+        
+        sections.forEach { section in
+            let seatchContent = section.title
+            
+            if seatchContent.lowercased().range(of: searchText, options: .regularExpression) != nil {
+                fillteredSections.append(section)
+            }
+        }
     }
 }
 
