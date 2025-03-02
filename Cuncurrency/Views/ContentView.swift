@@ -41,6 +41,12 @@ struct ContentView: View {
                 .tabItem{
                     Label("Section", systemImage: "square.grid.2x2")
                 }
+                
+                AccountView()
+                    .tabItem {
+                        Image(systemName: "person")
+                        Text("Account")
+                    }
             }
             .task {
                 await courseViewModel.fetch()
